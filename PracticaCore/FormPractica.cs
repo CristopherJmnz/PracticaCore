@@ -39,6 +39,7 @@ namespace PracticaCore
         private void LoadPedidos(string codigoCliente)
         {
             this.lstpedidos.Items.Clear();
+            this.lstpedidos.Items.Clear();
             List<Pedido> pedidos = this.prepo.getPedidosCliente(codigoCliente);
             foreach (Pedido pedido in pedidos)
             {
@@ -79,18 +80,38 @@ namespace PracticaCore
 
         private void btnnuevopedido_Click(object sender, EventArgs e)
         {
-            string codigoPedido = this.txtcodigopedido.Text;
-            string codigoCliente = "";
-            string fechaEntrega = this.txtfechaentrega.Text;
-            string formaEnvio = this.txtformaenvio.Text;
-            int importe = int.Parse(this.txtimporte.Text);
-            int insertados=this.prepo.insertPedido(codigoPedido,
-                codigoCliente,
-                fechaEntrega,
-                formaEnvio,
-                importe);
-            MessageBox.Show("Insertados: " + insertados);
+            int indexClienteSelected = this.cmbclientes.SelectedIndex;
+            if(indexClienteSelected != -1)
+            {
+                string codigoPedido = this.txtcodigopedido.Text;
+                string codigoCliente = this.idClientes[indexClienteSelected];
+                string fechaEntrega = this.txtfechaentrega.Text;
+                string formaEnvio = this.txtformaenvio.Text;
+                int importe = int.Parse(this.txtimporte.Text);
+                int insertados = this.prepo.InsertPedido(codigoPedido,
+                    codigoCliente,
+                    fechaEntrega,
+                    formaEnvio,
+                    importe);
+                MessageBox.Show("Insertados: " + insertados);
+                this.LoadPedidos(codigoCliente);
+            }
+            
+        }
 
+        private void btneliminarpedido_Click(object sender, EventArgs e)
+        {
+            int indexPedidoSelected = this.lstpedidos.SelectedIndex;
+            if (indexPedidoSelected != -1)
+            { 
+                string codigoPedido=this.idPedidos[indexPedidoSelected];
+                int eliminados=this.prepo.EliminarPedido(codigoPedido);
+                MessageBox.Show("Eliminados: " + eliminados);
+                int indexClienteSelected = this.cmbclientes.SelectedIndex;
+                string codigoCliente = this.idClientes[indexClienteSelected];
+                this.LoadPedidos(codigoCliente);
+            }
+                
         }
     }
 }

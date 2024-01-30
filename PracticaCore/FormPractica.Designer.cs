@@ -239,6 +239,7 @@
             btneliminarpedido.TabIndex = 26;
             btneliminarpedido.Text = "Eliminar pedido";
             btneliminarpedido.UseVisualStyleBackColor = true;
+            btneliminarpedido.Click += btneliminarpedido_Click;
             // 
             // txtcodigopedido
             // 

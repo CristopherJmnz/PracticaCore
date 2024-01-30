@@ -131,7 +131,7 @@ namespace PracticaCore.Repositories
             return pedido;
         }
 
-        public int insertPedido(string codigoPedido,
+        public int InsertPedido(string codigoPedido,
             string codigoCliente,
             string fechaEntrega,
             string formaEnvio,
@@ -155,6 +155,19 @@ namespace PracticaCore.Repositories
             this.cn.Close();
             this.com.Parameters.Clear();
             return insertados;
+        }
+        public int EliminarPedido(string codigoPedido)
+        {
+            string sql = "delete from pedidos where codigopedido=@codpedido";
+            SqlParameter pamCodPedido = new SqlParameter("@codpedido", codigoPedido);
+            this.com.Parameters.Add(pamCodPedido);
+            this.com.CommandType = CommandType.Text;
+            this.com.CommandText = sql;
+            this.cn.Open();
+            int eliminados = this.com.ExecuteNonQuery();
+            this.cn.Close();
+            this.com.Parameters.Clear();
+            return eliminados;
         }
     }
 }
